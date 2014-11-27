@@ -17,7 +17,16 @@ public abstract class Entity {
 
     protected ImageIcon icon_;
     protected int x_, y_;
-
+    /**
+     * TODO
+     * Cambiar x e y por point,
+     * Mirar lo de los métodos de movimiento (que entidades deben tenerlo
+     * y cuales no.
+     * Implementar en R2D2 el algoritmo heurístico Hill Climbing
+     * 
+     */
+    
+    
     public Entity() {
         x_ = 0;
         y_ = 0;

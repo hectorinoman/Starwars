@@ -90,6 +90,7 @@ public class MainWindow extends JFrame {
             pack();
         }else{
             pantalla_.redefine(dimX_,dimY_);
+            pack();
         }
     }
 

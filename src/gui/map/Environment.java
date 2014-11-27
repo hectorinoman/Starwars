@@ -56,10 +56,18 @@ public class Environment extends JPanel {
             }
         }
         
-        mainAgent_ = new EntityR2D2();
-        entityLayer_[5][3].setIcon(mainAgent_.getIcon());
+        /**
+         * TODO
+         * Implementar un algoritmo que coloque las entidades de forma aleatoria
+         * , hay que pasarles la posición por el constructor
+         */
+        mainAgent_ = new EntityR2D2(3,5);
+        entityLayer_[3][5].setIcon(mainAgent_.getIcon());
         
-    }
+    }   /**
+        * TODO
+        * anotar donde empieza el mainAgent_ y donde acaba.
+        */
 
     public Environment() {
         super();

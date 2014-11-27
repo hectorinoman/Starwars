@@ -3,10 +3,12 @@ package gui;
 import gui.map.Environment;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -18,6 +20,8 @@ public class MainWindow extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private static MainWindow s_instance;
+    
+    private int A_map_;
 
     private Environment pantalla_;
 
@@ -27,6 +31,7 @@ public class MainWindow extends JFrame {
     private JPanel buttonPanel_ = new JPanel();
     private JButton startButton_ = new JButton("Start");
     private JButton stopButton_ = new JButton("Stop");
+    private JButton randomButton_ = new JButton("Random");
 
     private static int dimX_;
     private static int dimY_;
@@ -34,17 +39,22 @@ public class MainWindow extends JFrame {
     private void initButtons() {
         buttonPanel_.add(startButton_);
         buttonPanel_.add(stopButton_);
+        buttonPanel_.add(randomButton_);
         startButton_.setVisible(true);
         stopButton_.setVisible(true);
-
+        randomButton_.setVisible(true);
+        
+        
+        
+        
         /**
          * TODO
          */
         startButton_.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dimX_ = 20;
-                dimY_ = 20;
+                dimX_ = 10;
+                dimY_ = 10;
                 initScrollPanel();
                 System.out.println("me has pulsado");
             }
@@ -54,6 +64,21 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("jaja, me hace cosquillas");
+            }
+        });
+        
+        randomButton_.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dimX_ = Integer.parseInt(JOptionPane.showInputDialog(null, "Insert Vector X Size: ", "Table Size", 1));
+                dimY_ = Integer.parseInt(JOptionPane.showInputDialog(null, "Insert Vector Y Size: ", "Table Size", 1));
+
+                dimX_++;
+                dimY_++;
+            
+                 initScrollPanel();
+            
+                
             }
         });
     }

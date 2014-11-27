@@ -24,5 +24,6 @@ public class EntityR2D2 extends Entity {
         super(x, y);
         icon_ = new ImageIcon(getClass().getResource("defensive.png"));
         icon_ = new ImageIcon(icon_.getImage().getScaledInstance(32, 32, BufferedImage.SCALE_SMOOTH));
+        //Colocar a RD2     Land_[x][y].setIcon(icon);
     }
 }

@@ -81,5 +81,21 @@ public class Environment extends JPanel {
     private Icon ImageIcon(URL resource) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    public void redefine(int x, int y){
+        this.removeAll();
+        
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        dimX_ = x;
+        dimY_ = y;
+
+        entityLayer_ = new JLabel[x][y];
+        
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        agentsGen();
+        floorGen();
+
+        
+    }
 
 }

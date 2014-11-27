@@ -75,20 +75,22 @@ public class MainWindow extends JFrame {
 
                 dimX_++;
                 dimY_++;
-            
-                 initScrollPanel();
-            
                 
+                initScrollPanel();  
+            
             }
         });
     }
 
     private void initScrollPanel() {
-
-        pantalla_ = new Environment(dimX_, dimY_);
-        JScrollPane envScrollPanel = new JScrollPane(pantalla_);
-        add(envScrollPanel, BorderLayout.CENTER);
-        pack();
+        if(pantalla_==null){
+            pantalla_ = new Environment(dimX_, dimY_);
+            JScrollPane envScrollPanel = new JScrollPane(pantalla_);
+            add(envScrollPanel, BorderLayout.CENTER);
+            pack();
+        }else{
+            pantalla_.redefine(dimX_,dimY_);
+        }
     }
 
     private void initComponents() {

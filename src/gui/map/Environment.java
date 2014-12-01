@@ -5,10 +5,7 @@
  */
 package gui.map;
 
-import entities.Entity;
-import entities.EntityR2D2;
-import java.awt.Color;
-import java.awt.Dimension;
+import entities.*;
 import java.net.URL;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -21,19 +18,27 @@ import org.netbeans.lib.awtextra.AbsoluteConstraints;
  * @author Jaime
  */
 public class Environment extends JPanel {
+    //generador de números aleatorios
+    private java.util.Random rand= new java.util.Random(System.nanoTime());   
+    
+    private JLabel floorLayer_[][];     //Tablero del suelo
+    private JLabel entityLayer_[][];    //Tablero de entidades
+    int dimX_, dimY_;                   //Dimensiones del tablero
 
-    private JLabel floorLayer_[][];  //  Tablero del suelo
-    private JLabel entityLayer_[][]; //  Tablero de entidades
-    int dimX_, dimY_;           //  Dimensiones del tablero
-
-    private Entity agents_[];   //  Lista de agentes y obstáculo
-    int nAgents_;               //  Lúmero de agentes obstáculo
-    private Entity mainAgent_;  //  Agente principal (robot) (R2D2)
-
+    private Entity mainAgent_;          //Agente principal (robot) (R2D2)
+    private Entity finalAgent_;         //Objetivo del agente principal (Nave)
+    
+    private Entity agents_[];           //lista de agentes
+    private int nAgents_;               //numero de agentes
+    
+    
+    
+    
+    
     private void floorGen() {
-        ImageIcon floorTile_ = new ImageIcon( //  Tile que
-              getClass() //  representa
-                .getResource("floor.png"));     //  el suelo
+        ImageIcon floorTile_ = new ImageIcon( //  Tile que representa el suelo
+              getClass() 
+                .getResource("floor.png"));     
 
         floorLayer_ = new JLabel[dimX_][dimY_];
         
@@ -45,8 +50,9 @@ public class Environment extends JPanel {
             }
         }
     }
+    
 
-    public void agentsGen() {
+    private void agentsLayerGen() {
         entityLayer_ = new JLabel[dimX_][dimY_];
         
         for (int i = 0; i < dimX_; i++) {
@@ -56,18 +62,32 @@ public class Environment extends JPanel {
             }
         }
         
-        /**
-         * TODO
-         * Implementar un algoritmo que coloque las entidades de forma aleatoria
-         * , hay que pasarles la posición por el constructor
-         */
-        mainAgent_ = new EntityR2D2(3,5);
-        entityLayer_[3][5].setIcon(mainAgent_.getIcon());
         
-    }   /**
-        * TODO
-        * anotar donde empieza el mainAgent_ y donde acaba.
-        */
+        //Adding random R2D2
+        int x= rand()%dimX_;
+        int y= rand()%dimY_;
+        
+        System.out.println(x);
+        System.out.println(y);
+        
+        mainAgent_ = new EntityR2D2(x,y);
+        entityLayer_[x][y].setIcon(mainAgent_.getIcon());
+        
+        
+        
+        while(true){
+            x= rand()%dimX_;
+            y= rand()%dimY_;
+            
+            if(entityLayer_[x][y].getIcon()==null){
+                finalAgent_=new EntityFalconMillenium(x,y);
+                entityLayer_[x][y].setIcon(finalAgent_.getIcon());
+                break;
+            }
+        }
+
+        
+    }   
 
     public Environment() {
         super();
@@ -82,12 +102,16 @@ public class Environment extends JPanel {
         entityLayer_ = new JLabel[x][y];
         
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        agentsGen();
+        agentsLayerGen();
         floorGen();
     }
 
-    private Icon ImageIcon(URL resource) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    private int rand(){
+        int n = rand.nextInt();
+        if(n<0)
+            n*=-1;
+        return n;
     }
     
     public void redefine(int x, int y){
@@ -100,10 +124,86 @@ public class Environment extends JPanel {
         entityLayer_ = new JLabel[x][y];
         
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        agentsGen();
+        agentsLayerGen();
         floorGen();
-
         
+        
+    }
+    
+    
+    /**
+     * Generates a random obstacle in x, y position
+     * @param x
+     * @param y 
+     */
+    private Entity genRandomObstacle(int x, int y){
+        int c= rand()%2;
+        Entity entidad=null;
+        switch(c){
+            case 0:
+                entityLayer_[x][y].setIcon(new EntityStormtrooper().getIcon());
+                return new EntityStormtrooper(x,y);
+            case 1:
+                entityLayer_[x][y].setIcon(new EntityDarthVader().getIcon());
+                return new EntityStormtrooper(x,y);
+        }
+        return entidad;
+    }
+    
+    
+    
+    
+    /**
+     * Adds %n obstacles (max 100%, min 0%)
+     * @param n 
+     */
+    public void obstacles(double n){
+        
+        if (n > 100){
+            n=100;
+        }
+        
+        int obstacles = (dimX_* dimY_)*(int)n; //number of obstacles
+        
+        
+        /**
+         * Si se quiere rellenar el 100% del mapa lo más eficiente es
+         * intentar rellenar cada cuadro que no esté ocupado
+         */
+        if(n == 100){
+            nAgents_=(dimX_*dimY_)-2;
+            agents_ = new Entity[nAgents_-2];
+            
+            int defined=0;
+            for(int i=0; i<dimX_; i++){             
+                for (int j = 0; j < dimY_; j++) {
+                    if(entityLayer_[i][j].getIcon()==null){
+                        agents_[defined]=genRandomObstacle(i,j);
+                        defined++;
+                    }
+                }
+            }
+        }else{
+            if (n >= 0){
+                nAgents_=(((dimX_*dimY_)-2)*(int)n)/100;
+                agents_ = new Entity[nAgents_-2];
+                int x;
+                int y;
+                
+                int defined=0;
+                while (defined<nAgents_){
+                    x=rand()%dimX_;
+                    y=rand()%dimY_;
+                    if(entityLayer_[x][y].getIcon()==null){
+                        agents_[defined]=genRandomObstacle(x,y);                        
+                        defined++;
+                    }
+                }
+     
+            }else{
+                
+            }
+        }
     }
 
 }

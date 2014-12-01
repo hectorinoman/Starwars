@@ -26,4 +26,21 @@ public class EntityR2D2 extends Entity {
         icon_ = new ImageIcon(icon_.getImage().getScaledInstance(32, 32, BufferedImage.SCALE_SMOOTH));
         //Colocar a RD2     Land_[x][y].setIcon(icon);
     }
+    
+    protected void moveRight() {
+        x_++;
+    }
+
+    protected void moveLeft() {
+        x_--;
+    }
+
+    protected void moveUp() {
+        y_++;
+    }
+
+    protected void moveDown() {
+        y_--;
+    }
+    
 }

@@ -9,6 +9,8 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.text.Position;
 
+
+
 /**
  *
  * @author Jaime
@@ -36,6 +38,7 @@ public abstract class Entity {
         x_ = x;
         y_ = y;
     }
+    
 
     public ImageIcon getIcon() {
         return icon_;
@@ -49,20 +52,11 @@ public abstract class Entity {
         return y_;
     }
 
-    public void moveRight() {
-        x_++;
-    }
+    abstract protected void moveRight();
 
-    public void moveLeft() {
-        x_--;
-    }
+    abstract protected void moveLeft();
 
-    public void moveUp() {
-        y_++;
-    }
+    abstract protected void moveUp();
 
-    public void moveDown() {
-        y_--;
-    }
-
+    abstract protected void moveDown();
 }

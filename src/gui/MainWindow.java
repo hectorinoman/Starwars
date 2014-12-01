@@ -3,7 +3,6 @@ package gui;
 import gui.map.Environment;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -15,8 +14,8 @@ import javax.swing.JScrollPane;
 public class MainWindow extends JFrame {
 
     private static String APP_NAME = "AIRobot";
-    private static int DEFAULT_WIDTH = 640;
-    private static int DEFAULT_HEIGHT = 480;
+    private static int DEFAULT_WIDTH = 300;
+    private static int DEFAULT_HEIGHT = 80;
 
     private static final long serialVersionUID = 1L;
     private static MainWindow s_instance;
@@ -70,14 +69,34 @@ public class MainWindow extends JFrame {
         randomButton_.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                dimX_ = Integer.parseInt(JOptionPane.showInputDialog(null, "Insert Vector X Size: ", "Table Size", 1));
-                dimY_ = Integer.parseInt(JOptionPane.showInputDialog(null, "Insert Vector Y Size: ", "Table Size", 1));
+                dimX_ = Integer.parseInt(
+                        JOptionPane
+                                .showInputDialog(
+                                        null, 
+                                        "Insert Vector X Size: ", 
+                                        "Table Size", 
+                                        1));
+                
+                dimY_ = Integer.parseInt(
+                        JOptionPane
+                                .showInputDialog(
+                                        null,
+                                        "Insert Vector Y Size: ", 
+                                        "Table Size", 
+                                        1));
 
-                dimX_++;
-                dimY_++;
                 
                 initScrollPanel();  
-            
+                
+                int obstacles = Integer.parseInt(
+                        JOptionPane
+                                .showInputDialog(
+                                        null,
+                                        "Insert obstacles percent: ", 
+                                        "Obstacles", 
+                                        1));
+                
+                pantalla_.obstacles(obstacles);
             }
         });
     }
@@ -92,6 +111,7 @@ public class MainWindow extends JFrame {
             pantalla_.redefine(dimX_,dimY_);
             pack();
         }
+        
     }
 
     private void initComponents() {
@@ -117,7 +137,7 @@ public class MainWindow extends JFrame {
         wnd.setSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
         wnd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         wnd.setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
-        wnd.setLocationRelativeTo(null);
+        wnd.setLocation(0,0);
         wnd.setVisible(true);
     }
 

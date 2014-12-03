@@ -5,9 +5,9 @@
  */
 package entities;
 
+import java.awt.Point;
 import java.net.URL;
 import javax.swing.ImageIcon;
-import javax.swing.text.Position;
 
 
 
@@ -18,7 +18,7 @@ import javax.swing.text.Position;
 public abstract class Entity {
 
     protected ImageIcon icon_;
-    protected int x_, y_;
+    protected Point pos_=new Point();
     /**
      * TODO
      * Cambiar x e y por point,
@@ -30,26 +30,31 @@ public abstract class Entity {
     
     
     public Entity() {
-        x_ = 0;
-        y_ = 0;
+       pos_.setLocation(0,0);
     }
 
     public Entity(int x, int y) {
-        x_ = x;
-        y_ = y;
+         pos_.setLocation(x,y);
     }
     
+    public Entity(Point pos){
+        pos_=pos;
+    }
 
     public ImageIcon getIcon() {
         return icon_;
     }
 
     public int getX() {
-        return x_;
+        return (int) pos_.getX();
     }
 
     public int getY() {
-        return y_;
+        return (int) pos_.getY();
+    }
+    
+    public Point getPos() {
+        return pos_; 
     }
 
     abstract protected void moveRight();

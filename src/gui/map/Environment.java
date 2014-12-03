@@ -186,7 +186,7 @@ public class Environment extends JPanel {
         }else{
             if (n >= 0){
                 nAgents_=(((dimX_*dimY_)-2)*(int)n)/100;
-                agents_ = new Entity[nAgents_-2];
+                agents_ = new Entity[nAgents_];
                 int x;
                 int y;
                 

@@ -13,6 +13,14 @@ public class Point {
         x_=0;
         y_=0;
     }
+    public Point(Point pos){
+        x_=pos.getX();
+        y_=pos.getY();
+    }
+    public Point(int x, int y){
+        x_=x;
+        y_=y;
+    }
     
     public void setLocation(int x, int y){
         x_=x;
@@ -20,8 +28,8 @@ public class Point {
     }
     
     public void setLocation(Point pos){
-        x_=pos.x_;
-        y_=pos.y_;
+        x_=pos.getX();
+        y_=pos.getY();
     }
     
     public int getX(){
@@ -35,5 +43,6 @@ public class Point {
     public int manhatanCost(Point pos){
         return abs(pos.getX()-x_) + abs(pos.getY()-y_);
     }
+    
     
 }

@@ -98,9 +98,8 @@ public class MainWindow extends JFrame {
                                         1));
                 
                 pantalla_.obstacles(obstacles);
-                Point punto = new Point();
-                punto.setLocation(3,5);
-                System.out.println(pantalla_.manhattan_cost(punto));
+
+                System.out.println("Manhattan Cost vale:"+pantalla_.manhattan_cost(new Point(3,5)));
             }
         });
     }

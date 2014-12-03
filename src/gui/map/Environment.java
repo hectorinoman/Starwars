@@ -164,11 +164,6 @@ public class Environment extends JPanel {
      */
     public void obstacles(double n){
         
-        if (n > 100){
-            n=100;
-        }
-        
-        int obstacles = (dimX_* dimY_)*(int)n; //number of obstacles
         
         
         /**
@@ -177,7 +172,7 @@ public class Environment extends JPanel {
          */
         if(n == 100){
             nAgents_=(dimX_*dimY_)-2;
-            agents_ = new Entity[nAgents_-2];
+            agents_ = new Entity[nAgents_];
             
             int defined=0;
             for(int i=0; i<dimX_; i++){             

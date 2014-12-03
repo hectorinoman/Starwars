@@ -68,8 +68,6 @@ public class Environment extends JPanel {
         int x= rand()%dimX_;
         int y= rand()%dimY_;
         
-        System.out.println(x);
-        System.out.println(y);
         
         mainAgent_ = new EntityR2D2(x,y);
         entityLayer_[x][y].setIcon(mainAgent_.getIcon());
@@ -86,7 +84,7 @@ public class Environment extends JPanel {
                 break;
             }
         }
-
+        System.out.println("Manhattan Cost desde R2D2 vale:"+manhattan_cost(mainAgent_.getPos()));
         
     }   
 
@@ -132,7 +130,7 @@ public class Environment extends JPanel {
         agentsLayerGen();
         floorGen();
         
-        
+        System.out.println("Manhattan Cost desde R2D2 vale:"+manhattan_cost(mainAgent_.getPos()));
     }
     
     

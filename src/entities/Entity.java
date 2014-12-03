@@ -5,7 +5,7 @@
  */
 package entities;
 
-import java.awt.Point;
+import entities.Point;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
@@ -46,11 +46,11 @@ public abstract class Entity {
     }
 
     public int getX() {
-        return (int) pos_.getX();
+        return pos_.getX();
     }
 
     public int getY() {
-        return (int) pos_.getY();
+        return pos_.getY();
     }
     
     public Point getPos() {

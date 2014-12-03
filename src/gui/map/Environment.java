@@ -6,13 +6,14 @@
 package gui.map;
 
 import entities.*;
+import entities.Point;
 import java.net.URL;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
-
+import static java.lang.Math.abs;
 /**
  *
  * @author Jaime
@@ -112,6 +113,10 @@ public class Environment extends JPanel {
         if(n<0)
             n*=-1;
         return n;
+    }
+    
+    public int manhattan_cost(Point pos) {
+        return finalAgent_.getPos().manhatanCost(pos);
     }
     
     public void redefine(int x, int y){

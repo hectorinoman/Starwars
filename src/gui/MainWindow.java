@@ -1,6 +1,7 @@
 package gui;
 
 import gui.map.Environment;
+import entities.Point;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -97,6 +98,9 @@ public class MainWindow extends JFrame {
                                         1));
                 
                 pantalla_.obstacles(obstacles);
+                Point punto = new Point();
+                punto.setLocation(3,5);
+                System.out.println(pantalla_.manhattan_cost(punto));
             }
         });
     }
@@ -123,7 +127,8 @@ public class MainWindow extends JFrame {
         setLayout(new BorderLayout());
 
         initComponents();
-
+        
+              
         pack();
     }
 

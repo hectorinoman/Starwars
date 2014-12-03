@@ -5,7 +5,6 @@
  */
 package entities;
 
-import entities.Point;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 

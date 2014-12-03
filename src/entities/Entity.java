@@ -5,8 +5,6 @@
  */
 package entities;
 
-import entities.Point;
-import java.net.URL;
 import javax.swing.ImageIcon;
 
 

@@ -7,13 +7,10 @@ package gui.map;
 
 import entities.*;
 import entities.Point;
-import java.net.URL;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import static java.lang.Math.abs;
 /**
  *
  * @author Jaime
@@ -33,11 +30,11 @@ public class Environment extends JPanel {
     private int nAgents_;               //numero de agentes
     
     
-    private ImageIcon routeIcon_= new ImageIcon(    //icono casilla de ruta
+    private final ImageIcon routeIcon_= new ImageIcon(    //icono casilla de ruta
             getClass()
                     .getResource("route.png"));
     
-    private ImageIcon wrongIcon_= new ImageIcon(    //icono de casilla visitada
+    private final ImageIcon wrongIcon_= new ImageIcon(    //icono de casilla visitada
             getClass()
                     .getResource("wrong.png"));
     

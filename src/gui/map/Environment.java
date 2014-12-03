@@ -170,37 +170,37 @@ public class Environment extends JPanel {
             if(entityLayer_[mainAgent_.getX()+1][mainAgent_.getY()].getIcon()==null){
                 mCost=manhattan_cost(new Point(mainAgent_.getX()+1,mainAgent_.getY()));
                 if(mCost<best){
-                    mCost=best;
+                    best=mCost;
                     rPoint=new Point(mainAgent_.getX()+1,mainAgent_.getY());
                 }
             }
         }
         
-        else if ((mainAgent_.getX()-1)>=0){
+        if ((mainAgent_.getX()-1)>=0){
             if(entityLayer_[mainAgent_.getX()-1][mainAgent_.getY()].getIcon()==null){
                 mCost=manhattan_cost(new Point(mainAgent_.getX()-1,mainAgent_.getY()));
                 if(mCost<best){
-                    mCost=best;
+                    best=mCost;
                     rPoint=new Point(mainAgent_.getX()-1,mainAgent_.getY());
                 }
             }
         }
         
-        else if ((mainAgent_.getY()+1)<dimX_){
+        if ((mainAgent_.getY()+1)<dimX_){
             if(entityLayer_[mainAgent_.getX()][mainAgent_.getY()+1].getIcon()==null){
                 mCost=manhattan_cost(new Point(mainAgent_.getX(),mainAgent_.getY()+1));
                 if(mCost<best){
-                    mCost=best;
+                    best=mCost;
                     rPoint=new Point(mainAgent_.getX(),mainAgent_.getY()+1);
                 }
             }
         }
         
-        else if ((mainAgent_.getY()-1)>=0){
+        if ((mainAgent_.getY()-1)>=0){
             if(entityLayer_[mainAgent_.getX()][mainAgent_.getY()-1].getIcon()==null){
                 mCost=manhattan_cost(new Point(mainAgent_.getX(),mainAgent_.getY()-1));
                 if(mCost<best){
-                    mCost=best;
+                    best=mCost;
                     rPoint=new Point(mainAgent_.getX(),mainAgent_.getY()-1);
                 }
             }
@@ -215,23 +215,28 @@ public class Environment extends JPanel {
         
         while(true){
             tPoint=chooseBest();
-            System.out.println(manhattan_cost(mainAgent_.getPos()));
-            
+           
             if(tPoint==null){
                 entityLayer_[mainAgent_.getX()][mainAgent_.getY()].setIcon(wrongIcon_);
-                tPoint=mainAgent_.back();       //retorna un valor hacia atrás
+                       //retorna un valor hacia atrás
                 
-                if(tPoint==null)
-                    break;
+                tPoint=mainAgent_.back();
+                
+
 
                 
             }else{
+                
                 entityLayer_[mainAgent_.getX()][mainAgent_.getY()].setIcon(routeIcon_);
                 mainAgent_.moveTo(tPoint);
                 
             }
             
             entityLayer_[mainAgent_.getX()][mainAgent_.getY()].setIcon(mainAgent_.getIcon());
+            
+
+            if(manhattan_cost(mainAgent_.getPos())==1 || tPoint==null)
+                break;
         }
     }
     

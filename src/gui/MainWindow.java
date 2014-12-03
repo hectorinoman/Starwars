@@ -6,6 +6,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -23,7 +25,7 @@ public class MainWindow extends JFrame {
     
     private int A_map_;
 
-    private Environment pantalla_;
+    private Environment pantalla_ = null;
 
     /**
      * Botones
@@ -53,10 +55,8 @@ public class MainWindow extends JFrame {
         startButton_.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dimX_ = 10;
-                dimY_ = 10;
-                initScrollPanel();
-                System.out.println("me has pulsado");
+                if(pantalla_!=null)
+                    pantalla_.hillClimbing();
             }
         });
 
@@ -99,7 +99,6 @@ public class MainWindow extends JFrame {
                 
                 pantalla_.obstacles(obstacles);
                 
-                pantalla_.hillClimbing();
             }
         });
     }

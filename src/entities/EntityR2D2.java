@@ -5,7 +5,9 @@
  */
 package entities;
 
+import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.util.Stack;
 import javax.swing.ImageIcon;
 
 /**
@@ -13,6 +15,7 @@ import javax.swing.ImageIcon;
  * @author Jaime
  */
 public class EntityR2D2 extends Entity {
+    private Stack<Point> stack_ = new Stack<Point> ();
 
     public EntityR2D2() {
         super();
@@ -28,19 +31,32 @@ public class EntityR2D2 extends Entity {
     }
     
     protected void moveRight() {
-        x_++;
+        stack_.push(pos_);
+        pos_.setLocation(pos_.getX()+1,pos_.getY());
     }
 
     protected void moveLeft() {
-        x_--;
+        stack_.push(pos_);
+        pos_.setLocation(pos_.getX()-1,pos_.getY());
     }
 
     protected void moveUp() {
-        y_++;
+        stack_.push(pos_);
+        pos_.setLocation(pos_.getX(),pos_.getY()+1);
     }
 
     protected void moveDown() {
-        y_--;
+        stack_.push(pos_);
+        pos_.setLocation(pos_.getX(),pos_.getY()-1);
+    }
+    
+    public Point back(){
+        if(!stack_.empty()){
+            pos_=stack_.pop();
+            return pos_;
+        }else{
+            return null;
+        }
     }
     
 }

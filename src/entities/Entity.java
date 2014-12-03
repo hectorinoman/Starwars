@@ -64,4 +64,6 @@ public abstract class Entity {
     abstract protected void moveUp();
 
     abstract protected void moveDown();
+    
+    abstract public Point back();
 }

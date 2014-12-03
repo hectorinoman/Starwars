@@ -5,6 +5,7 @@
  */
 package entities;
 
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 
@@ -35,5 +36,9 @@ public class EntityFalconMillenium extends Entity{
     }
 
     protected void moveDown() {
-    }    
+    }   
+    
+    public Point back(){
+        return null;
+    }
 }

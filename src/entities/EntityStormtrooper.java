@@ -26,16 +26,8 @@ public class EntityStormtrooper extends Entity{
         icon_ = new ImageIcon(icon_.getImage().getScaledInstance(32, 32, BufferedImage.SCALE_SMOOTH));
     }
     
-    protected void moveRight() {
-    }
-
-    protected void moveLeft() {
-    }
-
-    protected void moveUp() {
-    }
-
-    protected void moveDown() {
+    public void moveTo(Point pos){
+        
     }
 
     public Point back(){

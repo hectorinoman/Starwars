@@ -98,6 +98,8 @@ public class MainWindow extends JFrame {
                                         1));
                 
                 pantalla_.obstacles(obstacles);
+                
+                pantalla_.hillClimbing();
             }
         });
     }

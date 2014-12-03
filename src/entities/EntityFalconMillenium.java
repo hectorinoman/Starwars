@@ -26,17 +26,9 @@ public class EntityFalconMillenium extends Entity{
         icon_ = new ImageIcon(icon_.getImage().getScaledInstance(32, 32, BufferedImage.SCALE_SMOOTH));
     }
     
-    protected void moveRight() {
+    public void moveTo(Point pos){
+        
     }
-
-    protected void moveLeft() {
-    }
-
-    protected void moveUp() {
-    }
-
-    protected void moveDown() {
-    }   
     
     public Point back(){
         return null;

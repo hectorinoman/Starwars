@@ -30,24 +30,9 @@ public class EntityR2D2 extends Entity {
         //Colocar a RD2     Land_[x][y].setIcon(icon);
     }
     
-    protected void moveRight() {
+    public void moveTo(Point pos){
         stack_.push(pos_);
-        pos_.setLocation(pos_.getX()+1,pos_.getY());
-    }
-
-    protected void moveLeft() {
-        stack_.push(pos_);
-        pos_.setLocation(pos_.getX()-1,pos_.getY());
-    }
-
-    protected void moveUp() {
-        stack_.push(pos_);
-        pos_.setLocation(pos_.getX(),pos_.getY()+1);
-    }
-
-    protected void moveDown() {
-        stack_.push(pos_);
-        pos_.setLocation(pos_.getX(),pos_.getY()-1);
+        pos_=pos;
     }
     
     public Point back(){

@@ -33,6 +33,14 @@ public class Environment extends JPanel {
     private int nAgents_;               //numero de agentes
     
     
+    private ImageIcon routeIcon_= new ImageIcon(    //icono casilla de ruta
+            getClass()
+                    .getResource("route.png"));
+    
+    private ImageIcon wrongIcon_= new ImageIcon(    //icono de casilla visitada
+            getClass()
+                    .getResource("wrong.png"));
+    
     
     
     
@@ -113,7 +121,7 @@ public class Environment extends JPanel {
         return n;
     }
     
-    public int manhattan_cost(Point pos) {
+    private int manhattan_cost(Point pos) {
         return finalAgent_.getPos().manhatanCost(pos);
     }
     
@@ -153,8 +161,79 @@ public class Environment extends JPanel {
         return entidad;
     }
     
+    private Point chooseBest(){
+        int best=Integer.MAX_VALUE;
+        int mCost;
+        Point rPoint=null;
+        
+        if((mainAgent_.getX()+1)<dimX_){
+            if(entityLayer_[mainAgent_.getX()+1][mainAgent_.getY()].getIcon()==null){
+                mCost=manhattan_cost(new Point(mainAgent_.getX()+1,mainAgent_.getY()));
+                if(mCost<best){
+                    mCost=best;
+                    rPoint=new Point(mainAgent_.getX()+1,mainAgent_.getY());
+                }
+            }
+        }
+        
+        else if ((mainAgent_.getX()-1)>=0){
+            if(entityLayer_[mainAgent_.getX()-1][mainAgent_.getY()].getIcon()==null){
+                mCost=manhattan_cost(new Point(mainAgent_.getX()-1,mainAgent_.getY()));
+                if(mCost<best){
+                    mCost=best;
+                    rPoint=new Point(mainAgent_.getX()-1,mainAgent_.getY());
+                }
+            }
+        }
+        
+        else if ((mainAgent_.getY()+1)<dimX_){
+            if(entityLayer_[mainAgent_.getX()][mainAgent_.getY()+1].getIcon()==null){
+                mCost=manhattan_cost(new Point(mainAgent_.getX(),mainAgent_.getY()+1));
+                if(mCost<best){
+                    mCost=best;
+                    rPoint=new Point(mainAgent_.getX(),mainAgent_.getY()+1);
+                }
+            }
+        }
+        
+        else if ((mainAgent_.getY()-1)>=0){
+            if(entityLayer_[mainAgent_.getX()][mainAgent_.getY()-1].getIcon()==null){
+                mCost=manhattan_cost(new Point(mainAgent_.getX(),mainAgent_.getY()-1));
+                if(mCost<best){
+                    mCost=best;
+                    rPoint=new Point(mainAgent_.getX(),mainAgent_.getY()-1);
+                }
+            }
+        }
+        
+        return rPoint;
+    }
     
     
+    public void hillClimbing(){
+        Point tPoint;
+        
+        while(true){
+            tPoint=chooseBest();
+            System.out.println(manhattan_cost(mainAgent_.getPos()));
+            
+            if(tPoint==null){
+                entityLayer_[mainAgent_.getX()][mainAgent_.getY()].setIcon(wrongIcon_);
+                tPoint=mainAgent_.back();       //retorna un valor hacia atrás
+                
+                if(tPoint==null)
+                    break;
+
+                
+            }else{
+                entityLayer_[mainAgent_.getX()][mainAgent_.getY()].setIcon(routeIcon_);
+                mainAgent_.moveTo(tPoint);
+                
+            }
+            
+            entityLayer_[mainAgent_.getX()][mainAgent_.getY()].setIcon(mainAgent_.getIcon());
+        }
+    }
     
     /**
      * Adds %n obstacles (max 100%, min 0%)

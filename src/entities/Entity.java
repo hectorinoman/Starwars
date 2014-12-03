@@ -57,13 +57,7 @@ public abstract class Entity {
         return pos_; 
     }
 
-    abstract protected void moveRight();
-
-    abstract protected void moveLeft();
-
-    abstract protected void moveUp();
-
-    abstract protected void moveDown();
+    abstract public void moveTo(Point pos);
     
     abstract public Point back();
 }

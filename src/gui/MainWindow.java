@@ -62,6 +62,10 @@ public class MainWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("jaja, me hace cosquillas");
             }
+
+            private void JDialog(String me_aburro) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
         });
         
         randomButton_.addActionListener(new ActionListener(){

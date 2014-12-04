@@ -9,6 +9,7 @@ import entities.*;
 import entities.Point;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 /**
@@ -231,6 +232,13 @@ public class Environment extends JPanel {
             
             entityLayer_[mainAgent_.getX()][mainAgent_.getY()].setIcon(mainAgent_.getIcon());
             
+            if(tPoint==null){
+                JOptionPane.showMessageDialog(null, "No existe solucion!");
+            }
+            
+            if(manhattan_cost(mainAgent_.getPos())==1){
+                JOptionPane.showMessageDialog(null, "Existe solucion!");
+            }
 
             if(manhattan_cost(mainAgent_.getPos())==1 || tPoint==null)
                 break;

@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -31,10 +32,36 @@ public class MainWindow extends JFrame {
     private JButton startButton_ = new JButton("Start");
     private JButton stopButton_ = new JButton("Stop");
     private JButton randomButton_ = new JButton("Random");
+    private JPanel infoPanel_ = new JPanel();
+    private JLabel mainAgentCoords_ = new JLabel("Initial Agent Coords:");
+    private JLabel finalAgentCoords_ = new JLabel("Obective Coords:");
+    private JLabel entityAdd1 = new JLabel();
+    
+    
 
     private static int dimX_;
     private static int dimY_;
 
+    
+    private void refreshMainCoords(){
+        
+        String coordX= "" + pantalla_.getMainPosition().getX();
+        String coordY= "" + pantalla_.getMainPosition().getY();
+        String Text= "Initial Agent Coords: ("+coordX+","+coordY+")";
+        mainAgentCoords_.setText(Text);
+
+    }
+    
+    
+    private void refreshFinalCoords(){
+        
+        String coordX= "" + pantalla_.getFinalPosition().getX();
+        String coordY= "" + pantalla_.getFinalPosition().getY();
+        String Text= "Obective Coords: ("+coordX+","+coordY+")";
+        finalAgentCoords_.setText(Text);
+        
+    }
+    
     private void initButtons() {
         buttonPanel_.add(startButton_);
         buttonPanel_.add(stopButton_);
@@ -42,8 +69,6 @@ public class MainWindow extends JFrame {
         startButton_.setVisible(true);
         stopButton_.setVisible(true);
         randomButton_.setVisible(true);
-        
-        
         
         
         /**
@@ -86,9 +111,10 @@ public class MainWindow extends JFrame {
                                         "Insert Vector Y Size: ", 
                                         "Table Size", 
                                         1));
-
                 
                 initScrollPanel();  
+                refreshMainCoords();
+                refreshFinalCoords();
                 
                 int obstacles = Integer.parseInt(
                         JOptionPane
@@ -102,6 +128,14 @@ public class MainWindow extends JFrame {
                 
             }
         });
+    }
+    
+    private void initInfoLabels(){
+        infoPanel_.add(mainAgentCoords_);
+        infoPanel_.add(finalAgentCoords_);
+        mainAgentCoords_.setVisible(true);
+        finalAgentCoords_.setVisible(true);
+        
     }
 
     private void initScrollPanel() {
@@ -119,14 +153,15 @@ public class MainWindow extends JFrame {
 
     private void initComponents() {
         add(buttonPanel_, BorderLayout.NORTH);
+        add(infoPanel_, BorderLayout.SOUTH);
         initButtons();
+        initInfoLabels();
     }
 
     private MainWindow() {
         setLayout(new BorderLayout());
 
         initComponents();
-        
               
         pack();
     }

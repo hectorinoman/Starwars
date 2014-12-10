@@ -7,16 +7,20 @@ package gui.map;
 
 import entities.*;
 import entities.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.text.Position;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 /**
  *
  * @author Jaime
  */
-public class Environment extends JPanel {
+public class Environment extends JPanel implements MouseListener{
     //generador de números aleatorios
     private java.util.Random rand= new java.util.Random(System.nanoTime());   
     
@@ -66,6 +70,7 @@ public class Environment extends JPanel {
             for (int j = 0; j < dimY_; j++) {
                 entityLayer_[i][j] = new JLabel();
                 add(entityLayer_[i][j], new AbsoluteConstraints(i * 32, j * 32, 32, 32));
+                entityLayer_[i][j].addMouseListener(this);
             }
         }
         
@@ -132,7 +137,6 @@ public class Environment extends JPanel {
 
         entityLayer_ = new JLabel[x][y];
         
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         agentsLayerGen();
         floorGen();
         
@@ -220,9 +224,6 @@ public class Environment extends JPanel {
                 
                 tPoint=mainAgent_.back();
                 
-
-
-                
             }else{
                 
                 entityLayer_[mainAgent_.getX()][mainAgent_.getY()].setIcon(routeIcon_);
@@ -293,4 +294,41 @@ public class Environment extends JPanel {
         }
     }
 
+    
+    public Point getMainPosition(){
+        return mainAgent_.getPos();
+    }
+    
+    public Point getFinalPosition(){
+        return finalAgent_.getPos();
+    }
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getButton()==MouseEvent.BUTTON1){
+            System.out.println("first clicked");
+        }else if(e.getButton()==MouseEvent.BUTTON3){
+            System.out.println("secondary clicked");
+        }
+    }
+   
+    @Override
+    public void mousePressed(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        
+    }
 }

@@ -31,9 +31,9 @@ public class Environment extends JPanel implements MouseListener{
     private Entity mainAgent_;          //Agente principal (robot) (R2D2)
     private Entity finalAgent_;         //Objetivo del agente principal (Nave)
     
-    private Entity agents_[];           //lista de agentes
-    private int nAgents_;               //numero de agentes
-    
+    int selectedIcon_=1;                  //obstaculo o agente seleccionado
+
+
     
     private final ImageIcon routeIcon_= new ImageIcon(    //icono casilla de ruta
             getClass()
@@ -42,8 +42,7 @@ public class Environment extends JPanel implements MouseListener{
     private final ImageIcon wrongIcon_= new ImageIcon(    //icono de casilla visitada
             getClass()
                     .getResource("wrong.png"));
-    
-    
+   
     
     
     private void floorGen() {
@@ -98,7 +97,35 @@ public class Environment extends JPanel implements MouseListener{
         System.out.println("Manhattan Cost desde R2D2 vale:"+manhattan_cost(mainAgent_.getPos()));
         
     }   
-
+    
+    private void agentsLayerGenManual(Point mAP, Point fAP) {
+        entityLayer_ = new JLabel[dimX_][dimY_];
+        
+        for (int i = 0; i < dimX_; i++) {
+            for (int j = 0; j < dimY_; j++) {
+                entityLayer_[i][j] = new JLabel();
+                add(entityLayer_[i][j], new AbsoluteConstraints(i * 32, j * 32, 32, 32));
+                entityLayer_[i][j].addMouseListener(this);
+            }
+        }
+        
+        mainAgent_ = new EntityR2D2(mAP.getX(),mAP.getY());
+        entityLayer_[mAP.getX()][mAP.getY()].setIcon(mainAgent_.getIcon());
+        
+        
+        
+        while(true){
+            
+            if(entityLayer_[fAP.getX()][fAP.getY()].getIcon()==null){
+                finalAgent_ = new EntityFalconMillenium(fAP.getX(),fAP.getY());
+                entityLayer_[fAP.getX()][fAP.getY()].setIcon(finalAgent_.getIcon());
+                break;
+            }
+        }
+        System.out.println("Manhattan Cost desde R2D2 vale:"+manhattan_cost(mainAgent_.getPos()));
+        
+    } 
+    
     public Environment() {
         super();
     }
@@ -113,6 +140,19 @@ public class Environment extends JPanel implements MouseListener{
         
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         agentsLayerGen();
+        floorGen();
+    }
+    
+    public Environment(int x, int y, Point mAP, Point fAP) {
+        super();
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        dimX_ = x;
+        dimY_ = y;
+
+        entityLayer_ = new JLabel[x][y];
+        
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        agentsLayerGenManual(mAP,fAP);
         floorGen();
     }
 
@@ -143,24 +183,35 @@ public class Environment extends JPanel implements MouseListener{
         System.out.println("Manhattan Cost desde R2D2 vale:"+manhattan_cost(mainAgent_.getPos()));
     }
     
-    
+    public void redefineManual(int x, int y, Point mAP, Point mAF){
+        this.removeAll();
+        
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        dimX_ = x;
+        dimY_ = y;
+
+        entityLayer_ = new JLabel[x][y];
+        
+        agentsLayerGenManual(mAP, mAF);
+        floorGen();
+        
+        System.out.println("Manhattan Cost desde R2D2 vale:"+manhattan_cost(mainAgent_.getPos()));
+    }   
     /**
      * Generates a random obstacle in x, y position
      * @param x
      * @param y 
      */
-    private Entity genRandomObstacle(int x, int y){
+    private void genRandomObstacle(int x, int y){
         int c= rand()%2;
-        Entity entidad=null;
         switch(c){
             case 0:
                 entityLayer_[x][y].setIcon(new EntityStormtrooper().getIcon());
-                return new EntityStormtrooper(x,y);
+                break;
             case 1:
                 entityLayer_[x][y].setIcon(new EntityDarthVader().getIcon());
-                return new EntityStormtrooper(x,y);
+                break;
         }
-        return entidad;
     }
     
     private Point chooseBest(){
@@ -259,22 +310,20 @@ public class Environment extends JPanel implements MouseListener{
          * intentar rellenar cada cuadro que no esté ocupado
          */
         if(n == 100){
-            nAgents_=(dimX_*dimY_)-2;
-            agents_ = new Entity[nAgents_];
+            int nAgents_=(dimX_*dimY_)-2;
             
             int defined=0;
             for(int i=0; i<dimX_; i++){             
                 for (int j = 0; j < dimY_; j++) {
                     if(entityLayer_[i][j].getIcon()==null){
-                        agents_[defined]=genRandomObstacle(i,j);
+                        genRandomObstacle(i,j);
                         defined++;
                     }
                 }
             }
         }else{
             if (n >= 0){
-                nAgents_=(((dimX_*dimY_)-2)*(int)n)/100;
-                agents_ = new Entity[nAgents_];
+                int nAgents_=(((dimX_*dimY_)-2)*(int)n)/100;
                 int x;
                 int y;
                 
@@ -283,7 +332,7 @@ public class Environment extends JPanel implements MouseListener{
                     x=rand()%dimX_;
                     y=rand()%dimY_;
                     if(entityLayer_[x][y].getIcon()==null){
-                        agents_[defined]=genRandomObstacle(x,y);                        
+                        genRandomObstacle(x,y);                        
                         defined++;
                     }
                 }
@@ -303,12 +352,40 @@ public class Environment extends JPanel implements MouseListener{
         return finalAgent_.getPos();
     }
     
+    
+    private void addObstacle(JLabel actual){
+        if(actual.getIcon()==null){
+            switch(selectedIcon_){
+                case 1:
+                    actual.setIcon(new EntityStormtrooper().getIcon());
+                    break;
+                case 2:
+                    actual.setIcon(new EntityDarthVader().getIcon());
+                    break;
+            }
+        }
+    }
+    
+    public void setObstacleType(int icon){
+        if(icon==1 || icon==2){
+            selectedIcon_=icon;
+        }
+    }
+    
     @Override
     public void mouseClicked(MouseEvent e) {
+        JLabel actual= (JLabel) e.getSource();
+        
         if(e.getButton()==MouseEvent.BUTTON1){
-            System.out.println("first clicked");
+            addObstacle(actual);
         }else if(e.getButton()==MouseEvent.BUTTON3){
-            System.out.println("secondary clicked");
+            actual.setIcon(null);
+            
+            entityLayer_[mainAgent_.getX()][mainAgent_.getY()]
+                    .setIcon(mainAgent_.getIcon());
+            
+            entityLayer_[finalAgent_.getX()][finalAgent_.getY()]
+                    .setIcon(finalAgent_.getIcon());
         }
     }
    

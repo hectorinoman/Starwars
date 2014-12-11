@@ -1,5 +1,8 @@
 package gui;
 
+import entities.EntityDarthVader;
+import entities.EntityStormtrooper;
+import entities.Point;
 import gui.map.Environment;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -30,8 +33,13 @@ public class MainWindow extends JFrame {
      */
     private JPanel buttonPanel_ = new JPanel();
     private JButton startButton_ = new JButton("Start");
-    private JButton stopButton_ = new JButton("Stop");
+    private JButton manualButton_ = new JButton("Manual");
     private JButton randomButton_ = new JButton("Random");
+    private JPanel buttonPanel2_ = new JPanel();
+    
+    private JButton dV_ = new JButton();
+    private JButton sT_ = new JButton();
+    
     private JPanel infoPanel_ = new JPanel();
     private JLabel mainAgentCoords_ = new JLabel("Initial Agent Coords:");
     private JLabel finalAgentCoords_ = new JLabel("Obective Coords:");
@@ -64,11 +72,19 @@ public class MainWindow extends JFrame {
     
     private void initButtons() {
         buttonPanel_.add(startButton_);
-        buttonPanel_.add(stopButton_);
+        buttonPanel_.add(manualButton_);
         buttonPanel_.add(randomButton_);
         startButton_.setVisible(true);
-        stopButton_.setVisible(true);
+        manualButton_.setVisible(true);
         randomButton_.setVisible(true);
+        
+        
+        buttonPanel2_.add(dV_);
+        buttonPanel2_.add(sT_);
+        dV_.setIcon(new EntityDarthVader().getIcon());
+        sT_.setIcon(new EntityStormtrooper().getIcon());
+        dV_.setVisible(true);
+        sT_.setVisible(true);
         
         
         /**
@@ -82,14 +98,77 @@ public class MainWindow extends JFrame {
             }
         });
 
-        stopButton_.addActionListener(new ActionListener() {
+        manualButton_.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("jaja, me hace cosquillas");
-            }
-
-            private void JDialog(String me_aburro) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                int x,y;
+                Point mAP, fAP;
+                dimX_ = Integer.parseInt(
+                        JOptionPane
+                                .showInputDialog(
+                                        null, 
+                                        "Insert Vector X Size: ", 
+                                        "Table Size", 
+                                        1));
+                
+                dimY_ = Integer.parseInt(
+                        JOptionPane
+                                .showInputDialog(
+                                        null,
+                                        "Insert Vector Y Size: ", 
+                                        "Table Size", 
+                                        1));
+                
+                x = Integer.parseInt(
+                        JOptionPane
+                                .showInputDialog(
+                                        null,
+                                        "Position X for R2D2: ", 
+                                        "R2D2", 
+                                        1));
+                
+                y = Integer.parseInt(
+                        JOptionPane
+                                .showInputDialog(
+                                        null,
+                                        "Position Y for R2D2: ", 
+                                        "R2D2", 
+                                        1));
+                mAP=new Point(x,y);
+                
+                x = Integer.parseInt(
+                        JOptionPane
+                                .showInputDialog(
+                                        null,
+                                        "Position X for Spaceship: ", 
+                                        "Falcon Millenium", 
+                                        1));
+                
+                y = Integer.parseInt(
+                        JOptionPane
+                                .showInputDialog(
+                                        null,
+                                        "Position Y for Spaceship: ", 
+                                        "Falcon Millenium", 
+                                        1));
+                
+                fAP=new Point(x,y);
+                
+                
+                if(pantalla_==null){
+                    pantalla_ = new Environment(dimX_, dimY_, mAP, fAP);
+                    JScrollPane envScrollPanel = new JScrollPane(pantalla_);
+                    add(envScrollPanel, BorderLayout.CENTER);
+                    pack();
+                }else{
+                    pantalla_.redefineManual(dimX_, dimY_, mAP, fAP);
+                    pack();
+                }
+                
+                refreshMainCoords();
+                refreshFinalCoords();
+                
+                
             }
         });
         
@@ -128,6 +207,22 @@ public class MainWindow extends JFrame {
                 
             }
         });
+        
+        
+        dV_.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pantalla_.setObstacleType(2);
+            }
+        });
+        
+        sT_.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pantalla_.setObstacleType(1);
+            }
+        });
+        
     }
     
     private void initInfoLabels(){
@@ -153,6 +248,7 @@ public class MainWindow extends JFrame {
 
     private void initComponents() {
         add(buttonPanel_, BorderLayout.NORTH);
+        add(buttonPanel2_, BorderLayout.WEST);
         add(infoPanel_, BorderLayout.SOUTH);
         initButtons();
         initInfoLabels();
